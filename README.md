@@ -1,4 +1,4 @@
-# Sieage of Crowns
+# Siege of Crowns
 
 Descrição breve do que o projeto faz.
 

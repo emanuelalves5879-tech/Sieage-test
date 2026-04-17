@@ -26,14 +26,22 @@
 ## ▶️ Como Executar
 1. Instale o Roblox Player e execute o seguinte link:
 
+---
 ## 🎮 Controles 
 
+---
 ## 📜 Regras do jogo
 
+---
 ## 🗂️ Estrutura do Projeto
 
+---
 ## 🎨 Organização dos Assets
 
+---
 ## 📝 Observações
 
+---
 ## 👥 Créditos
+
+---

@@ -45,19 +45,14 @@ Siege-Of-Crowns/
 │   │   └── SDD.md
 │   └── Sounds.md
 │
-├── assets/
-│   ├── maps/
-│   │   ├── Caverna.rbxm
-│   │   ├── Cenário.rbxm
-│   │   ├── Mapa.rbxm
-│   │   ├── Montanhas.rbxm
-│   │   └── Waypoints.rbxm
-│   │
-│   ├── mobs/
-│   │   └── Mobs.rbxm
-│   │
-│   └── towers/
-│       └── Towers.rbxm
+├── Cenário/
+│   ├── Caverna.rbxm
+│   ├── Cenário.rbxm
+│   ├── Mapa.rbxm
+│   ├── Montanhas.rbxm
+│   ├── Waypoints.rbxm
+│   ├── Mobs.rbxm
+│   └── Towers.rbxm
 │
 ├── scripts/
 │   ├── CollisionConfig.luau

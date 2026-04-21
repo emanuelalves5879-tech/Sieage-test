@@ -35,16 +35,15 @@
 ---
 ## 🗂️ Estrutura do Projeto
 
-'''text
 Siege-Of-Crowns/
 ├── main.py
 ├── README.md
-
+│
 ├── docs/
 │   ├── SDD/
 │   │   └── SDD.md
 │   └── Sounds.md
-
+│
 ├── assets/
 │   ├── maps/
 │   │   ├── Caverna.rbxm
@@ -58,13 +57,12 @@ Siege-Of-Crowns/
 │   │
 │   └── towers/
 │       └── Towers.rbxm
-
+│
 ├── scripts/
 │   ├── CollisionConfig.luau
 │   ├── GameConfig.luau
 │   ├── GladiatorCollisionSetup.luau
 │   └── Main.rbxmx
-'''
 ---
 ## 🎨 Organização dos Assets
 

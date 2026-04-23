@@ -2,17 +2,21 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Script" referent="RBX52D6BD60CD724067A5980F06568F30E7">
+	<Item class="Script" referent="RBX2FE0339C17C644BAB7491A752710172B">
 		<Properties>
 			<ProtectedString name="Source"><![CDATA[-- ============================================
 -- SCRIPT PRINCIPAL: Controla as ondas de zumbis
 -- ============================================
 
+print("[Main] Script iniciado!")
+
 -- Carrega o módulo que gerencia os zumbis
 local zumbi = require(script.Mob)
+print("[Main] Módulo Mob carregado!")
 
 -- Referência ao mapa do jogo
 local mapa = workspace:WaitForChild("cenario")
+print("[Main] Mapa encontrado: " .. mapa.Name)
 
 -- Espera o mapa estar completamente carregado
 task.wait(2)
@@ -31,6 +35,7 @@ if not start then
 	return
 end
 
+print("[Main] Waypoints: " .. waypoints.Name .. ", Start: " .. start.Name)
 print("=== MAPA PRONTO! Iniciando ondas... ===")
 
 -- ============================================
@@ -48,7 +53,7 @@ for onda = 1, 7 do
 	print("Spawning: " .. quantidade .. " zumbis com " .. (velocidade * 100) .. "% de velocidade" .. (skeletonVidaMult > 1 and " e " .. string.format("%.0f", 30 * skeletonVidaMult) .. " HP" or ""))
 	
 	-- Spawna a onda de Dark Skeletons
-	zumbi.SpawnWave("Dark Skeleton", mapa, quantidade, velocidade, skeletonVidaMult)
+	zumbi.SpawnWave("Dark Skeletons", mapa, quantidade, velocidade, skeletonVidaMult, onda)
 	
 	-- A partir da onda 4, spawna Golems também
 	if onda >= 4 then
@@ -62,7 +67,7 @@ for onda = 1, 7 do
 		local golemVelocidade = velocidade * 0.5 * golemVelMult -- Base: metade do Dark Skeleton, depois +30% por onda
 		
 		print("Spawning: " .. golemQuantidade .. " Golems (Vel: " .. string.format("%.0f%%", golemVelMult * 100) .. ", Vida: " .. string.format("%.0f%%", golemVidaMult * 100) .. ")")
-		zumbi.SpawnWave("Golem", mapa, golemQuantidade, golemVelocidade, golemVidaMult)
+		zumbi.SpawnWave("Golem", mapa, golemQuantidade, golemVelocidade, golemVidaMult, onda)
 	end
 	
 	-- Espera todos os zumbis morrerem ou chegarem ao final
@@ -79,14 +84,14 @@ print("=== TODAS AS ONDAS COMPLETAS! ===")]]></ProtectedString>
 			<Content name="LinkedSource"><null></null></Content>
 			<token name="RunContext">0</token>
 			<string name="ScriptGuid">{1954C16A-FFFE-49BF-948A-D344E105412E}</string>
-			<BinaryString name="AttributesSerialize"></BinaryString>
+			<BinaryString name="AttributesSerialize">AQAAABEAAABfbGVtb25hZGVVbmlxdWVJZAIMAAAAbzYwdFREMDJvNjB0</BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 			<bool name="DefinesCapabilities">false</bool>
 			<string name="Name">Main</string>
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="ModuleScript" referent="RBX8BC3729BE9AA4B8DAECD639E9646B894">
+		<Item class="ModuleScript" referent="RBX6D4B1A535BC14F93921728D23EC3B3DF">
 			<Properties>
 				<Content name="LinkedSource"><null></null></Content>
 				<ProtectedString name="Source"><![CDATA[local ServerStorage = game:GetService("ServerStorage")
@@ -94,8 +99,8 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PhysicsService = game:GetService("PhysicsService")
 
--- Carrega o sistema de vida do castelo
-local Base = require(script.Parent.Base)
+-- Sistema de vida
+local GameConfig = require(ReplicatedStorage:WaitForChild("GameConfig"))
 
 local mob = {}
 
@@ -119,14 +124,20 @@ local function moverZumbi(zumbi, mapa, dano)
 	-- Debug: Mostra qual mob está se movendo e o dano
 	local nomeMob = zumbi and zumbi.Name or "Desconhecido"
 	print(string.format("[Mob] %s iniciando movimento (dano: %d)", nomeMob, dano or 10))
+	print(string.format("[Mob] %s - Mapa: %s", nomeMob, mapa and mapa.Name or "nil"))
 	
 	-- Proteção contra erros
 	local sucesso, erro = pcall(function()
 		local humanoide = zumbi:FindFirstChild("Humanoid")
 		local caminho = mapa:FindFirstChild("waypoints")
 		
+		print(string.format("[Mob] %s - Humanoide: %s, Caminho: %s", nomeMob, humanoide and "sim" or "nil", caminho and caminho.Name or "nil"))
+		
 		-- Se não tem humanoide ou caminho, não faz nada
-		if not humanoide or not caminho then return end
+		if not humanoide or not caminho then
+			print(string.format("[Mob] %s - Sem humanoide ou caminho", nomeMob))
+			return
+		end
 
 		-- Pega todos os pontos do caminho e ordena (1, 2, 3...)
 		-- Filtra apenas partes com nomes numéricos
@@ -139,42 +150,33 @@ local function moverZumbi(zumbi, mapa, dano)
 		table.sort(pontos, function(a, b) 
 			return tonumber(a.Name) < tonumber(b.Name) 
 		end)
+		
+		print(string.format("[Mob] %s - %d waypoints encontrados", nomeMob, #pontos))
 
 		-- Move o zumbi de ponto em ponto
 		for i, ponto in pontos do
 			-- Verifica se o zumbi ainda existe e está vivo
-			if not zumbi or not zumbi.Parent then return end
-			if not humanoide or humanoide.Health <= 0 then return end
+			if not zumbi or not zumbi.Parent then
+				print(string.format("[Mob] %s - Modelo não existe mais", nomeMob))
+				return
+			end
+			if not humanoide or humanoide.Health <= 0 then
+				print(string.format("[Mob] %s - Morreu durante o movimento (waypoint %d)", nomeMob, i))
+				return
+			end
 			
 			if ponto:IsA("BasePart") then
 				humanoide:MoveTo(ponto.Position)
 				humanoide.MoveToFinished:Wait(10)
 				
-				-- Verifica se chegou perto o suficiente do último waypoint
-				local raiz = zumbi:FindFirstChild("HumanoidRootPart")
+				-- Verifica se é o último waypoint
 				local ehUltimoPonto = (i == #pontos)
-				local distancia = raiz and (raiz.Position - ponto.Position).Magnitude or 0
 				
-				-- Se é o último ponto, espera até chegar perto o suficiente
+				-- Se é o último ponto, causa dano e desaparece
 				if ehUltimoPonto then
-					local timeoutMaximo = 30 -- Tempo máximo de espera (30 segundos)
-					local tempoInicio = tick()
-					
-					-- Espera até estar perto o suficiente (ou timeout)
-					while distancia >= 5 and zumbi and zumbi.Parent and humanoide and humanoide.Health > 0 do
-						if tick() - tempoInicio > timeoutMaximo then
-							print(string.format("[Mob] %s timeout no último waypoint, forçando dano", nomeMob))
-							break
-						end
-						task.wait(0.5)
-						distancia = raiz and (raiz.Position - ponto.Position).Magnitude or 0
-					end
-					
-					-- Causa dano ao castelo
-					print(string.format("[Mob] %s chegou ao final! Causando %d de dano", nomeMob, dano or 10))
-					Base.TakeDamage(dano or 10)
+					GameConfig.PerderVida(dano or 10)
 					if zumbi and zumbi.Parent then
-						zumbi:Destroy()
+						zumbi.Parent = nil
 					end
 					return
 				end
@@ -183,6 +185,7 @@ local function moverZumbi(zumbi, mapa, dano)
 		
 		-- Fallback: se completou todos os pontos mas não chegou perto do último
 		if zumbi and zumbi.Parent then
+			print(string.format("[Mob] %s - Fallback: destruindo modelo", nomeMob))
 			zumbi:Destroy()
 		end
 	end)
@@ -278,11 +281,19 @@ end
 -- ============================================
 -- FUNÇÃO: Spawna VÁRIOS zumbis (uma onda)
 -- ============================================
-function mob.SpawnWave(nome, mapa, quantidade, multiplicadorVelocidade, multiplicadorVida)
+function mob.SpawnWave(nome, mapa, quantidade, multiplicadorVelocidade, multiplicadorVida, numeroOnda)
+	-- Calcula o tempo entre spawns baseado na onda
+	local tempoSpawn = mob.Config.tempoEntreSpawns -- Padrão: 1.5s
+	
+	-- A partir da onda 5, Dark Skeletons spawnam a cada 1 segundo
+	if nome == "Dark Skeletons" and numeroOnda and numeroOnda >= 5 then
+		tempoSpawn = 1.0
+	end
+	
 	for i = 1, quantidade do
 		-- Espera ANTES de spawnar (exceto o primeiro)
 		if i > 1 then
-			task.wait(mob.Config.tempoEntreSpawns)
+			task.wait(tempoSpawn)
 		end
 		mob.Spawn(nome, mapa, multiplicadorVelocidade, multiplicadorVida)
 	end
@@ -345,6 +356,37 @@ function mob.CalcularGolemStats(numeroOnda)
 end
 
 -- ============================================
+-- FUNÇÃO AUXILIAR: Verifica se é uma torre
+-- (Gladiator, Archer, Cannon ou qualquer torre colocada)
+-- ============================================
+local function ehTorre(objeto)
+	-- Verifica pelo nome do objeto
+	local nome = objeto.Name
+	if nome == "Gladiator" or nome == "Archer" or nome == "Cannon" then
+		return true
+	end
+	
+	-- Verifica pelos scripts específicos de cada torre
+	if objeto:FindFirstChild("GladiatorScript") then -- Gladiator
+		return true
+	end
+	if objeto:FindFirstChild("ChaseScript") then -- Archer
+		return true
+	end
+	if objeto:FindFirstChild("FireGun") or objeto:FindFirstChild("CannonBall") then -- Cannon
+		return true
+	end
+	
+	-- Verifica se está dentro de uma pasta de torres
+	local parent = objeto.Parent
+	if parent and (parent.Name == "Towers" or parent.Name == "Gladiator" or parent.Name == "Archer" or parent.Name == "Cannon") then
+		return true
+	end
+	
+	return false
+end
+
+-- ============================================
 -- FUNÇÃO: Conta quantos zumbis estão vivos
 -- (exclui jogadores e torres, conta apenas inimigos)
 -- ============================================
@@ -355,7 +397,7 @@ function mob.ContarVivos()
 	for _, objeto in workspace:GetChildren() do
 		local humanoide = objeto:FindFirstChild("Humanoid")
 		local naoEhJogador = not Players:GetPlayerFromCharacter(objeto)
-		local naoEhTorre = not objeto:FindFirstChild("GladiatorScript")
+		local naoEhTorre = not ehTorre(objeto)
 		
 		-- Só conta se: tem Humanoid, não é jogador, não é torre, e está VIVO
 		if humanoide and naoEhJogador and naoEhTorre and humanoide.Health > 0 then
@@ -374,7 +416,7 @@ end
 
 return mob]]></ProtectedString>
 				<string name="ScriptGuid">{4BD73413-FE50-4D50-A642-AF225A718C0D}</string>
-				<BinaryString name="AttributesSerialize"></BinaryString>
+				<BinaryString name="AttributesSerialize">AQAAABEAAABfbGVtb25hZGVVbmlxdWVJZAIMAAAANFhoWk5OSXk0WGha</BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<string name="Name">Mob</string>
@@ -382,15 +424,17 @@ return mob]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="Script" referent="RBX0369DB2EF1E54AF6A84E9E0AE4462FEE">
+		<Item class="Script" referent="RBX4F5B4AAC5A884C0ABFB334BC51B5B3F2">
 			<Properties>
 				<ProtectedString name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Referência ao RemoteEvent
 local placeTowerEvent = ReplicatedStorage:WaitForChild("PlaceTower")
 
--- Referência ao modelo da torre Gladiator
+-- Referência aos modelos das torres
 local gladiatorModel = ReplicatedStorage:WaitForChild("Towers"):WaitForChild("Gladiator")
+local archerModel = ReplicatedStorage:WaitForChild("Towers"):WaitForChild("Archer")
+local cannonModel = ReplicatedStorage:WaitForChild("Towers"):WaitForChild("Cannon")
 local mapa = workspace:WaitForChild("cenario")
 
 -- Configurações
@@ -398,6 +442,14 @@ local PATH_BLOCK_RADIUS = 4 -- Mesmo valor do cliente
 local MIN_PLAYER_DISTANCE = 4 -- Distância mínima do jogador
 local MIN_SPAWN_DISTANCE = 9 -- Distância mínima do spawn dos mobs
 local CASTLE_MARGIN = 2 -- Margem extra ao redor do castelo
+local MIN_TOWER_DISTANCE = 4 -- Distância mínima entre torres
+
+-- Offset do pivô até a base (para posicionar no chão)
+local TOWER_OFFSETS = {
+	Gladiator = 1.95,
+	Archer = 2.91,
+	Cannon = 1.25
+}
 
 -- Calcula distância de um ponto a uma linha (segmento)
 local function distanceToSegment(point, lineStart, lineEnd)
@@ -472,6 +524,20 @@ local function isOnPlayer(player, position)
 	return dist2D < MIN_PLAYER_DISTANCE
 end
 
+-- Verifica se está muito perto de outra torre
+local function isTooCloseToOtherTower(position)
+	for _, obj in workspace:GetChildren() do
+		if obj:IsA("Model") and (obj.Name == "Gladiator" or obj.Name == "Archer" or obj.Name == "Cannon") then
+			local towerPos = obj:GetPivot().Position
+			local dist2D = math.sqrt((position.X - towerPos.X)^2 + (position.Z - towerPos.Z)^2)
+			if dist2D < MIN_TOWER_DISTANCE then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 -- Verifica se está muito perto do spawn dos mobs
 local function isTooCloseToSpawn(position)
 	local startPart = mapa:FindFirstChild("Start")
@@ -481,15 +547,12 @@ local function isTooCloseToSpawn(position)
 	return dist2D < MIN_SPAWN_DISTANCE
 end
 
--- Verifica se está em cima do Castelo (Base)
+-- Verifica se está em cima do Castelo
 local function isOnCastle(position)
 	local cenario = mapa:FindFirstChild("Cenário")
 	if not cenario then return false end
 	
-	local castelo1 = cenario:FindFirstChild("Castelo1")
-	if not castelo1 then return false end
-	
-	local castelo = castelo1:FindFirstChild("Castelo")
+	local castelo = cenario:FindFirstChild("castelo")
 	if not castelo then return false end
 	
 	-- Pega o bounding box do castelo
@@ -506,8 +569,8 @@ local function isOnCastle(position)
 	return withinX and withinZ
 end
 
--- Função para configurar o gladiador após spawn
-local function configurarGladiator(model)
+-- Função para configurar a torre após spawn
+local function configurarTorre(model, towerName)
 	-- Configura o Humanoid para não pular e ficar estável
 	local humanoid = model:FindFirstChildOfClass("Humanoid")
 	if humanoid then
@@ -519,15 +582,10 @@ local function configurarGladiator(model)
 		humanoid.HipHeight = 0 -- R6 usa as pernas para altura
 	end
 	
-	-- Ancora o HumanoidRootPart para não cair
-	local hrp = model:FindFirstChild("HumanoidRootPart")
-	if hrp then
-		hrp.Anchored = true
-	end
-	
-	-- Aplica grupo de colisão a todas as partes
+	-- Ancora TODAS as partes para evitar problemas de física
 	for _, part in model:GetDescendants() do
 		if part:IsA("BasePart") then
+			part.Anchored = true
 			part.CollisionGroup = "Gladiators"
 		end
 	end
@@ -566,15 +624,30 @@ local function spawnTower(player, towerName, position, rotation)
 		return
 	end
 	
+	-- Verifica se está muito perto de outra torre
+	if isTooCloseToOtherTower(position) then
+		print("Posição bloqueada: está muito perto de outra torre")
+		return
+	end
+	
 	-- Clona a torre
 	local newTower = tower:Clone()
 	
-	-- Posiciona a torre com rotação
+	-- Posiciona a torre no chão (offset já calculado para cada tipo)
+	local offset = TOWER_OFFSETS[towerName] or 2
 	local rotationRad = math.rad(rotation or 0)
-	newTower:PivotTo(CFrame.new(position) * CFrame.Angles(0, rotationRad, 0))
+	local posAjustada = Vector3.new(position.X, position.Y + offset, position.Z)
+	newTower:PivotTo(CFrame.new(posAjustada) * CFrame.Angles(0, rotationRad, 0))
 	
-	-- Configura o gladiador (colisão e humanoid)
-	configurarGladiator(newTower)
+	-- Força atualização das partes após posicionamento
+	for _, part in newTower:GetDescendants() do
+		if part:IsA("BasePart") then
+			part.Anchored = true
+		end
+	end
+	
+	-- Configura a torre (colisão e humanoid)
+	configurarTorre(newTower, towerName)
 	
 	-- Coloca no Workspace
 	newTower.Parent = workspace
@@ -588,7 +661,7 @@ placeTowerEvent.OnServerEvent:Connect(spawnTower)]]></ProtectedString>
 				<Content name="LinkedSource"><null></null></Content>
 				<token name="RunContext">0</token>
 				<string name="ScriptGuid">{AC5FD647-0DCA-4F3F-8371-4E2234A7BA6B}</string>
-				<BinaryString name="AttributesSerialize"></BinaryString>
+				<BinaryString name="AttributesSerialize">AQAAABEAAABfbGVtb25hZGVVbmlxdWVJZAIMAAAAV0lOU0J4SHZXSU5T</BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<string name="Name">TowerSpawner</string>
@@ -596,88 +669,40 @@ placeTowerEvent.OnServerEvent:Connect(spawnTower)]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="ModuleScript" referent="RBX59670EC101C349D792BE2C20262E9F2C">
+		<Item class="ModuleScript" referent="RBXD04B39326B6347A2A1A1724E0BB1DD35">
 			<Properties>
 				<Content name="LinkedSource"><null></null></Content>
-				<ProtectedString name="Source"><![CDATA[local module = {}
+				<ProtectedString name="Source"><![CDATA[-- ============================================
+-- MÓDULO BASE: Sistema de vida do castelo
+-- ============================================
 
--- Configurações do Castelo
-local CASTLE_MAX_HEALTH = 500
-local CASTLE_HEALTH = CASTLE_MAX_HEALTH
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- Referências
-local castelo1 = game.Workspace.cenario["Cenário"].Castelo1
-local billboardGui = castelo1.BillboardGui
-local healthBar = billboardGui.Frame.Background.HealthBar
-local healthText = billboardGui.Frame.Background.HealthText
-local titleLabel = billboardGui.Frame.Background.TitleLabel
+local Base = {}
 
--- Função para atualizar a barra de vida
-local function atualizarBarraVida()
-	local healthPercent = CASTLE_HEALTH / CASTLE_MAX_HEALTH
-	healthBar.Size = UDim2.new(healthPercent, -4, 0.35, -4)
-	
-	-- Se a vida chegou a 0, mostra "BASE: DESTROYED" centralizado
-	if CASTLE_HEALTH <= 0 then
-		-- Esconde a barra de vida
-		healthBar.Size = UDim2.new(0, 0, 0, 0)
-		healthBar.Visible = false
-		
-		-- Mostra texto centralizado "BASE: DESTROYED"
-		healthText.Text = "BASE: DESTROYED"
-		healthText.Size = UDim2.new(1, 0, 1, 0)
-		healthText.Position = UDim2.new(0, 0, 0, 0)
-		healthText.TextSize = 14
-		healthText.TextColor3 = Color3.fromRGB(255, 50, 50)
-		healthText.BackgroundTransparency = 1
-		healthText.TextStrokeTransparency = 0.5
-		
-		-- Esconde o título
-		titleLabel.Text = ""
-	else
-		healthText.Text = string.format("%d/%d", CASTLE_HEALTH, CASTLE_MAX_HEALTH)
-		titleLabel.Text = "Base"
-		titleLabel.TextSize = 14
-		titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	
-		-- Mudar cor baseado na vida
-		if healthPercent > 0.6 then
-			healthBar.BackgroundColor3 = Color3.fromRGB(50, 200, 50) -- Verde
-		elseif healthPercent > 0.3 then
-			healthBar.BackgroundColor3 = Color3.fromRGB(255, 200, 0) -- Amarelo
-		else
-			healthBar.BackgroundColor3 = Color3.fromRGB(200, 50, 50) -- Vermelho
-		end
-	end
+-- Referência ao GameConfig (sistema de vida)
+local GameConfig = ReplicatedStorage:WaitForChild("GameConfig")
+
+-- ============================================
+-- FUNÇÃO: Causa dano ao castelo
+-- ============================================
+function Base.TakeDamage(dano)
+	local config = require(GameConfig)
+	config.PerderVida(dano)
 end
 
--- Função para causar dano ao castelo
-function module.TakeDamage(damage)
-	if CASTLE_HEALTH <= 0 then return end
-	
-	CASTLE_HEALTH = math.max(0, CASTLE_HEALTH - damage)
-	atualizarBarraVida()
-	
-	print(string.format("[Castelo] Recebeu %d de dano. Vida restante: %d/%d", damage, CASTLE_HEALTH, CASTLE_MAX_HEALTH))
-	
-	if CASTLE_HEALTH <= 0 then
-		print("[Castelo] DESTRUÍDO!")
-		-- Aqui você pode adicionar lógica de game over
-	end
+-- ============================================
+-- FUNÇÃO: Retorna a vida atual do castelo
+-- ============================================
+function Base.GetVida()
+	local config = require(GameConfig)
+	return config.GetVida()
 end
 
--- Função para obter a vida atual
-function module.GetHealth()
-	return CASTLE_HEALTH, CASTLE_MAX_HEALTH
-end
-
--- Inicializar barra de vida
-atualizarBarraVida()
-
-return module
+return Base
 ]]></ProtectedString>
 				<string name="ScriptGuid">{CCFD35D9-32A2-43A1-B799-D6D24E913307}</string>
-				<BinaryString name="AttributesSerialize"></BinaryString>
+				<BinaryString name="AttributesSerialize">AQAAABEAAABfbGVtb25hZGVVbmlxdWVJZAIMAAAAaHVQSWU0ZUlodVBJ</BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<string name="Name">Base</string>

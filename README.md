@@ -64,8 +64,9 @@ Siege-Of-Crowns/
 ├── docs/
 │   ├── SDD/
 │   │   └── SDD.md
-│   └── Sounds.md
 │
+├── Sons/
+│   ├── Sounds.md
 ├── Cenário/
 │   ├── Caverna.rbxm
 │   ├── Cenário.rbxm

@@ -46,8 +46,9 @@ A proposta sonora está alinhada ao gênero estratégico em tempo real:
 | `/sound/sfx/esqueletos_morte.wav` | SFX | Morte dos esqueletos |
 | `/sfx/golen_morte.wav` | SFX | Destruição de golem de pedra |
 | `/sound/sfx/goblin_morte.wav` | SFX | Morte dos Goblins |
-/sound/sfx/som_vitória.wav   | SFX | Vitória |
-/sound/sfx/som_gameover.wav   | SFX|  Game over|
+[/sounds/sfx/gameover/wav.wav](https://github.com/user-attachments/files/27553612/-sounds-sfx-gameover-wav.wav) |SFX| Game Over|
+[/sounds/sfx-/vitória-/wav.wav](https://github.com/user-attachments/files/27553610/-sounds-sfx-vitoria-wav.wav) |SFX| Vitória|
+
 
 
 ## 5. Função dos componentes sonoros

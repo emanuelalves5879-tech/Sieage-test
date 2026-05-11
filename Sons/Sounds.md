@@ -11,6 +11,6 @@
 
 ## [/sound/sfx/GoblinDeath.wav](https://github.com/user-attachments/files/27439320/Globin-SFX.zip)
 
-[/sounds/sfx/vitória/wav.wav](https://github.com/user-attachments/files/27553505/-sounds-sfx-vitoria-wav.wav)
+## [/sound/sfx/vitória.wav](https://github.com/user-attachments/files/27553505/-sounds-sfx-vitoria-wav.wav)
 
-[/sounds/sfx/gameover/wav.wav](https://github.com/user-attachments/files/27553498/-sounds-sfx-gameover-wav.wav)
+## [/sound/sfx/gameover.wav](https://github.com/user-attachments/files/27553498/-sounds-sfx-gameover-wav.wav)

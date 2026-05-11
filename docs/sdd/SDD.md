@@ -44,10 +44,10 @@ A proposta sonora está alinhada ao gênero estratégico em tempo real:
 |--------|------|----------|
 | `/sound/sfx/tower_placement.wav` | SFX | Posicionar torre no campo de batalha |
 | `/sound/sfx/esqueletos_morte.wav` | SFX | Morte dos esqueletos |
-| `/sfx/golen_morte.wav` | SFX | Destruição de golem de pedra |
+| `/sound/sfx/golen_morte.wav` | SFX | Destruição de golem de pedra |
 | `/sound/sfx/goblin_morte.wav` | SFX | Morte dos Goblins |
-[/sounds/sfx/gameover/wav.wav](https://github.com/user-attachments/files/27553612/-sounds-sfx-gameover-wav.wav) |SFX| Game Over|
-[/sounds/sfx-/vitória-/wav.wav](https://github.com/user-attachments/files/27553610/-sounds-sfx-vitoria-wav.wav) |SFX| Vitória|
+[/sound/sfx/gameover.wav](https://github.com/user-attachments/files/27553612/-sounds-sfx-gameover-wav.wav) |SFX| Game Over|
+[/sound/sfx/vitória.wav](https://github.com/user-attachments/files/27553610/-sounds-sfx-vitoria-wav.wav) |SFX| Vitória|
 
 
 

@@ -79,6 +79,10 @@ Siege-Of-Crowns/
 │   ├── Montanhas.rbxm
 │   ├── Waypoints.rbxm
 │   ├── Mobs.rbxm
+│   ├── Caminho.rbxm
+│   ├── Chão.rbxm
+│   ├── ChãoFloor.rbxm
+│   ├── Setas_caminho.rbxm
 │   └── Towers.rbxm
 │
 ├── scripts/

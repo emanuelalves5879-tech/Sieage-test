@@ -14,3 +14,7 @@
 ## [/sound/sfx/vitória.wav](https://github.com/user-attachments/files/27553505/-sounds-sfx-vitoria-wav.wav)
 
 ## [/sound/sfx/gameover.wav](https://github.com/user-attachments/files/27553498/-sounds-sfx-gameover-wav.wav)
+
+## [venda_torres.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
+
+## [upgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)

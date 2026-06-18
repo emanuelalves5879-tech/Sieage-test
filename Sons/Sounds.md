@@ -15,6 +15,6 @@
 
 ## [/sound/sfx/gameover.wav](https://github.com/user-attachments/files/27553498/-sounds-sfx-gameover-wav.wav)
 
-## /sound/sfx[venda_torres.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
+## [/sound/sfx/venda_torres.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
 
-## [/sound/sfxupgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)
+## [/sound/sfx/upgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)

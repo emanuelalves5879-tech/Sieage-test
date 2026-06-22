@@ -19,9 +19,9 @@
 
 ## [/sound/sfx/upgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)
 
-## [DanoCastelo.mp3](https://github.com/user-attachments/files/29205325/DanoCastelo.mp3)
+## [/sound/sfx/DanoCastelo.mp3](https://github.com/user-attachments/files/29205325/DanoCastelo.mp3)
 
-## [HordaFinal.mp3](https://github.com/user-attachments/files/29205347/HordaFinal.mp3)
+## [/sound/sfx/HordaFinal.mp3](https://github.com/user-attachments/files/29205347/HordaFinal.mp3)
 
-## [NovaOnda.wav](https://github.com/user-attachments/files/29205351/NovaOnda.wav)
+## [/sound/sfx/NovaOnda.wav](https://github.com/user-attachments/files/29205351/NovaOnda.wav)
 

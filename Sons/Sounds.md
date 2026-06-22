@@ -7,21 +7,19 @@
 
 ## [/sound/ambience/medieval_music.wav](https://github.com/user-attachments/files/26870616/Loop_The_Old_Tower_Inn.wav)
 
-## [/sound/sfx/skeleton.ogg](https://github.com/user-attachments/files/26870856/bones_rattle.zip)
+## [/sound/sfx/goblindeath.wav](https://github.com/user-attachments/files/27439320/Globin-SFX.zip)
 
-## [/sound/sfx/GoblinDeath.wav](https://github.com/user-attachments/files/27439320/Globin-SFX.zip)
-
-## [/sound/sfx/vitória.wav](https://github.com/user-attachments/files/27553505/-sounds-sfx-vitoria-wav.wav)
+## [/sound/sfx/victory.wav](https://github.com/user-attachments/files/27553505/-sounds-sfx-vitoria-wav.wav)
 
 ## [/sound/sfx/gameover.wav](https://github.com/user-attachments/files/27553498/-sounds-sfx-gameover-wav.wav)
 
-## [/sound/sfx/venda_torres.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
+## [/sound/sfx/sell_tower.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
 
-## [/sound/sfx/upgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)
+## [/sound/sfx/upgrade_tower.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)
 
-## [/sound/sfx/DanoCastelo.mp3](https://github.com/user-attachments/files/29205325/DanoCastelo.mp3)
+## [/sound/sfx/Base_damage.mp3](https://github.com/user-attachments/files/29205325/DanoCastelo.mp3)
 
-## [/sound/sfx/HordaFinal.mp3](https://github.com/user-attachments/files/29205347/HordaFinal.mp3)
+## [/sound/sfx/final_wave.mp3](https://github.com/user-attachments/files/29205347/HordaFinal.mp3)
 
-## [/sound/sfx/NovaOnda.wav](https://github.com/user-attachments/files/29205351/NovaOnda.wav)
+## [/sound/sfx/new_wave.wav](https://github.com/user-attachments/files/29205351/NovaOnda.wav)
 

@@ -18,3 +18,10 @@
 ## [/sound/sfx/venda_torres.wav](https://github.com/user-attachments/files/29098909/venda_torres.wav)
 
 ## [/sound/sfx/upgrade_torres.wav](https://github.com/user-attachments/files/29098920/upgrade_torres.wav)
+
+## [DanoCastelo.mp3](https://github.com/user-attachments/files/29205325/DanoCastelo.mp3)
+
+## [HordaFinal.mp3](https://github.com/user-attachments/files/29205347/HordaFinal.mp3)
+
+## [NovaOnda.wav](https://github.com/user-attachments/files/29205351/NovaOnda.wav)
+

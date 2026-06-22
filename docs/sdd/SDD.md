@@ -46,8 +46,8 @@ A proposta sonora está alinhada ao gênero estratégico em tempo real:
 | `/sound/sfx/esqueletos_morte.wav` | SFX | Morte dos esqueletos |
 | `/sound/sfx/golen_morte.wav` | SFX | Destruição de golem de pedra |
 | `/sound/sfx/goblin_morte.wav` | SFX | Morte dos Goblins |
-|'/sound/sfx/gameover.wav' |SFX| Game Over|
-|'/sound/sfx/vitória.wav' |SFX| Vitória|
+| /sound/sfx/gameover.wav |SFX| Game Over|
+| /sound/sfx/vitória.wav |SFX| Vitória|
 | `/sound/sfx/upgrade_torres.wav` | SFX | Upgrade da torre |
 | `/sound/sfx/venda_torres.wav` | SFX | Venda da torre |
 

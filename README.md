@@ -29,7 +29,7 @@ Este repositório possui todos os assets, documentações e arquivos do jogo Tow
 
 ### 🎵 Sons
 Efeitos sonoros, música ambiente e feedbacks sonoros. 
-No momento, temos sons apenas nos formatos WAV e OGG.
+No momento, temos sons apenas nos formatos WAV e MP3.
 Música ambiente = música com temática medieval em loop.
 
 ### 🖼️ Cenário

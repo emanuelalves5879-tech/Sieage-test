@@ -107,7 +107,7 @@ Os scripts .luau localizados em scripts/ são executados dentro do ambiente Robl
 
 ## Instruções de como iniciar o jogo:
 - **Passo a Passo:** Crie uma conta na Roblox, em seguida faça o passo a passo da criação da conta. Depois acesse o link abaixo e inicie o jogo.
-- **Link do jogo:**
+- **Link do jogo:** https://www.roblox.com/pt/games/119073641701413/SIEGE-OF-CROWNS
 
 ---
 

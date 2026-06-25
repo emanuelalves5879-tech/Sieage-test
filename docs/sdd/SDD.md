@@ -43,16 +43,16 @@ A proposta sonora está alinhada ao gênero estratégico em tempo real:
 | Arquivo | Tipo | Aplicação |
 |--------|------|----------|
 | `/sound/sfx/tower_placement.wav` | SFX | Posicionar torre no campo de batalha |
-| `/sound/sfx/esqueletos_morte.wav` | SFX | Morte dos esqueletos |
-| `/sound/sfx/golen_morte.wav` | SFX | Destruição de golem de pedra |
-| `/sound/sfx/goblin_morte.wav` | SFX | Morte dos Goblins |
-| /sound/sfx/gameover.wav |SFX| Game Over|
-| /sound/sfx/vitória.wav |SFX| Vitória|
-| `/sound/sfx/upgrade_torres.wav` | SFX | Upgrade da torre |
-| `/sound/sfx/venda_torres.wav` | SFX | Venda da torre |
-| `/sound/sfx/DanoCastelo.mp3` | SFX | Dano ao Castelo |
-| `/sound/sfx/HordaFinal.mp3` | SFX | Horda Final |
-| `/sound/sfx/NovaOnda.wav` | SFX | Nova Onda |
+| `/sound/sfx/death_skeletons.wav` | SFX | Morte dos esqueletos |
+| `/sound/sfx/death_golem.wav` | SFX | Destruição de golem de pedra |
+| `/sound/sfx/death_goblin.wav` | SFX | Morte dos Goblins |
+| /sound/feedback/gameover.wav |Feedback| Game Over|
+| /sound/feedback/victory.wav |Feedback| Vitória|
+| `/sound/sfx/upgrade_tower.wav` | SFX | Upgrade da torre |
+| `/sound/sfx/sell_tower.wav` | SFX | Venda da torre |
+| `/sound/sfx/Base_damage.mp3` | SFX | Dano ao Castelo |
+| `/sound/sfx/final_wave.mp3` | SFX | Horda Final |
+| `/sound/sfx/new_wave.wav` | SFX | Nova Onda |
 
 
 ## 5. Função dos componentes sonoros
